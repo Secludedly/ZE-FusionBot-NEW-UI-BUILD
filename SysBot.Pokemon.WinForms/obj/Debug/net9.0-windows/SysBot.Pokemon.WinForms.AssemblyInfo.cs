@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Nintendo Switch Pokémon Bot Manager")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("01.00.00+250630035306")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("01.00.00+250630204058")]
 [assembly: System.Reflection.AssemblyProductAttribute("SysBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SysBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

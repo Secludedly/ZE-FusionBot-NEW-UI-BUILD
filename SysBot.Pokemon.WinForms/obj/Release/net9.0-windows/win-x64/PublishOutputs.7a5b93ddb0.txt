@@ -1,0 +1,2 @@
+C:\Users\Admin\source\repos\ZE-FusionBot-NEW-UI-BUILD\SysBot.Pokemon.WinForms\bin\Release\net9.0-windows\publish\win-x64\SysBot.pdb
+C:\Users\Admin\source\repos\ZE-FusionBot-NEW-UI-BUILD\SysBot.Pokemon.WinForms\bin\Release\net9.0-windows\publish\win-x64\SysBot.exe

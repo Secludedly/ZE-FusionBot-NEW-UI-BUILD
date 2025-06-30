@@ -460,11 +460,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Base\\SysBot.Base.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Base\\SysBot.Base.csproj",
       "projectName": "SysBot.Base",
-      "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Base\\SysBot.Base.csproj",
+      "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Base\\SysBot.Base.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Base\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Base\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

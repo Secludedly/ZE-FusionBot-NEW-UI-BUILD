@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DsJGJy2q6l0=",
+  "dgSpecHash": "TgMbGfwcits=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Tests\\SysBot.Tests.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Tests\\SysBot.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\discord.net\\3.17.0\\discord.net.3.17.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\discord.net.commands\\3.17.0\\discord.net.commands.3.17.0.nupkg.sha512",

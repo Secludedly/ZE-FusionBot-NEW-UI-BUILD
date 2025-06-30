@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q00ZMf1JAGY=",
+  "dgSpecHash": "IXJZYi3ofUM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.WinForms\\SysBot.Pokemon.WinForms.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.WinForms\\SysBot.Pokemon.WinForms.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\animatedgif\\1.0.5\\animatedgif.1.0.5.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\discord.net\\3.17.0\\discord.net.3.17.0.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9xaSA7k30/M=",
+  "dgSpecHash": "Y0KcxgfbqMM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Base\\SysBot.Base.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Base\\SysBot.Base.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\libusbdotnet\\2.2.29\\libusbdotnet.2.2.29.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.2\\microsoft.net.illink.tasks.9.0.2.nupkg.sha512",

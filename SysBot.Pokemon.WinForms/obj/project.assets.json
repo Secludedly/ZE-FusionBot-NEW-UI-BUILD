@@ -1819,11 +1819,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.WinForms\\SysBot.Pokemon.WinForms.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.WinForms\\SysBot.Pokemon.WinForms.csproj",
       "projectName": "SysBot.Pokemon.WinForms",
-      "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.WinForms\\SysBot.Pokemon.WinForms.csproj",
+      "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.WinForms\\SysBot.Pokemon.WinForms.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.WinForms\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.WinForms\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1844,17 +1844,17 @@
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows",
           "projectReferences": {
-            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Base\\SysBot.Base.csproj": {
-              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Base\\SysBot.Base.csproj"
+            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Base\\SysBot.Base.csproj": {
+              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Base\\SysBot.Base.csproj"
             },
-            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.Discord\\SysBot.Pokemon.Discord.csproj": {
-              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.Discord\\SysBot.Pokemon.Discord.csproj"
+            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.Discord\\SysBot.Pokemon.Discord.csproj": {
+              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.Discord\\SysBot.Pokemon.Discord.csproj"
             },
-            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj": {
-              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj"
+            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj": {
+              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj"
             },
-            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon\\SysBot.Pokemon.csproj": {
-              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon\\SysBot.Pokemon.csproj"
+            "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon\\SysBot.Pokemon.csproj": {
+              "projectPath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon\\SysBot.Pokemon.csproj"
             }
           }
         }

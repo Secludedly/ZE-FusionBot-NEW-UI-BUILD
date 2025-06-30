@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "44T7yJLJU9s=",
+  "dgSpecHash": "ET1emhAOqHQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot - NEW UI BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\discord.net\\3.17.0\\discord.net.3.17.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\discord.net.commands\\3.17.0\\discord.net.commands.3.17.0.nupkg.sha512",
