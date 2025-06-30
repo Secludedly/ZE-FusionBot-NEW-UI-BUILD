@@ -1,0 +1,604 @@
+{
+  "Mode": 4,
+  "Hub": {
+    "Shuffled": false,
+    "Queues": {
+      "CanQueue": true,
+      "MaxQueueCount": 999,
+      "CanDequeueIfProcessing": false,
+      "FlexMode": 1,
+      "QueueToggleMode": 1,
+      "ThresholdUnlock": 0,
+      "ThresholdLock": 30,
+      "IntervalOpenFor": 300,
+      "IntervalCloseFor": 900,
+      "YieldMultCountTrade": 100,
+      "YieldMultCountSeedCheck": 100,
+      "YieldMultCountClone": 100,
+      "YieldMultCountFixOT": 100,
+      "YieldMultCountDump": 100,
+      "YieldMultWait": 1,
+      "YieldMultWaitTrade": 1,
+      "YieldMultWaitSeedCheck": 1,
+      "YieldMultWaitClone": 1,
+      "YieldMultWaitDump": 1,
+      "YieldMultWaitFixOT": 1,
+      "EstimatedDelayFactor": 1.1
+    },
+    "Timings": {
+      "MiscellaneousSettings": {
+        "AvoidSystemUpdate": false,
+        "ExtraReconnectDelay": 0,
+        "ExtraTimeConnectOnline": 0,
+        "ExtraTimeJoinUnionRoom": 500,
+        "ExtraTimeLeaveUnionRoom": 1000,
+        "ExtraTimeLoadPortal": 1000,
+        "ExtraTimeOpenBox": 1000,
+        "ExtraTimeOpenCodeEntry": 1000,
+        "ExtraTimeOpenYMenu": 500,
+        "KeypressTime": 200,
+        "ReconnectAttempts": 30
+      },
+      "OpeningGameSettings": {
+        "ExtraTimeLoadGame": 5000,
+        "ExtraTimeLoadOverworld": 3000,
+        "ProfileSelectionRequired": true,
+        "ExtraTimeLoadProfile": 0,
+        "CheckGameDelay": false,
+        "ExtraTimeCheckGame": 200
+      },
+      "RaidSettings": {
+        "ExtraTimeAddFriend": 0,
+        "ExtraTimeDeleteFriend": 0,
+        "ExtraTimeEndRaid": 0,
+        "ExtraTimeLoadRaid": 0,
+        "ExtraTimeOpenRaid": 0
+      },
+      "ClosingGameSettings": {
+        "ExtraTimeCloseGame": 0,
+        "ExtraTimeReturnHome": 0
+      },
+      "AvoidSystemUpdate": false,
+      "CheckGameDelay": false,
+      "ExtraTimeCheckDLC": 0,
+      "ExtraTimeCheckGame": 0,
+      "ExtraTimeCloseGame": 0,
+      "ExtraTimeConnectOnline": 0,
+      "ExtraTimeLoadGame": 0,
+      "ExtraTimeLoadOverworld": 0,
+      "ExtraTimeLoadProfile": 0,
+      "ExtraTimeReturnHome": 0,
+      "KeypressTime": 0,
+      "ProfileSelectionRequired": false,
+      "ExtraReconnectDelay": 0,
+      "ReconnectAttempts": 0,
+      "ExtraTimeAddFriend": 0,
+      "ExtraTimeEndRaid": 0,
+      "ExtraTimeJoinUnionRoom": 0,
+      "ExtraTimeLeaveUnionRoom": 0,
+      "ExtraTimeLoadPortal": 0,
+      "ExtraTimeOpenBox": 0,
+      "ExtraTimeOpenCodeEntry": 0
+    },
+    "BotName": "",
+    "ThemeOption": "Light",
+    "Trade": {
+      "TradeConfiguration": {
+        "MinTradeCode": 0,
+        "MaxTradeCode": 99999999,
+        "StoreTradeCodes": true,
+        "TradeWaitTime": 30,
+        "MaxTradeConfirmTime": 25,
+        "ItemTradeSpecies": 0,
+        "DefaultHeldItem": 0,
+        "SuggestRelearnMoves": true,
+        "AllowBatchTrades": true,
+        "MaxPkmsPerTrade": 1,
+        "MaxDumpsPerTrade": 20,
+        "MaxDumpTradeTime": 180,
+        "DumpTradeLegalityCheck": true,
+        "EnableSpamCheck": false
+      },
+      "VGCPastesConfiguration": {
+        "AllowRequests": true,
+        "GID": 1837599752
+      },
+      "AutoCorrectConfig": {
+        "EnableAutoCorrect": true,
+        "AutoCorrectEmbedIndicator": true,
+        "AutoCorrectNickname": true,
+        "FixedNickname": "",
+        "AutoCorrectSpeciesAndForm": true,
+        "AutoCorrectHeldItem": true,
+        "AutoCorrectNature": true,
+        "AutoCorrectAbility": true,
+        "AutoCorrectBall": true,
+        "AutoCorrectLevel": true,
+        "AutoCorrectGender": true,
+        "AutoCorrectMovesLearnset": true,
+        "AutoCorrectEVs": true,
+        "AutoCorrectIVs": true,
+        "AutoCorrectMarks": true
+      },
+      "TradeEmbedSettings": {
+        "UseEmbeds": true,
+        "PreferredImageSize": 0,
+        "MoveTypeEmojis": true,
+        "CustomTypeEmojis": [
+          {
+            "MoveType": 6,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 9,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 2,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 4,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 10,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 11,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 14,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 5,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 7,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 8,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 1,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 12,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 15,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 13,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 16,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 0,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 3,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 17,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 18,
+            "EmojiCode": ""
+          }
+        ],
+        "MaleEmoji": {
+          "EmojiString": ""
+        },
+        "FemaleEmoji": {
+          "EmojiString": ""
+        },
+        "MysteryGiftEmoji": {
+          "EmojiString": ""
+        },
+        "AlphaMarkEmoji": {
+          "EmojiString": ""
+        },
+        "MightiestMarkEmoji": {
+          "EmojiString": ""
+        },
+        "AlphaPLAEmoji": {
+          "EmojiString": ""
+        },
+        "UseTeraEmojis": true,
+        "TeraTypeEmojis": [
+          {
+            "MoveType": 6,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 9,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 2,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 4,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 10,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 11,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 14,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 5,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 7,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 8,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 1,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 12,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 15,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 13,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 16,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 0,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 3,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 17,
+            "EmojiCode": ""
+          },
+          {
+            "MoveType": 18,
+            "EmojiCode": ""
+          }
+        ],
+        "ShowLevel": true,
+        "ShowMetLevel": true,
+        "ShowMetDate": true,
+        "ShowMetLocation": true,
+        "ShowAbility": true,
+        "ShowNature": true,
+        "ShowLanguage": true,
+        "ShowIVs": true,
+        "ShowEVs": true,
+        "ShowScale": true,
+        "ShowTeraType": true
+      },
+      "RequestFolderSettings": {
+        "EventsFolder": "",
+        "BattleReadyPKMFolder": "",
+        "HOMEReadyPKMFolder": ""
+      },
+      "CountStatsSettings": {
+        "CompletedSurprise": 0,
+        "CompletedDistribution": 0,
+        "CompletedTrades": 0,
+        "CompletedFixOTs": 0,
+        "CompletedSeedChecks": 0,
+        "CompletedClones": 0,
+        "CompletedDumps": 0,
+        "EmitCountsOnStatusCheck": false
+      },
+      "ScreenOff": false,
+      "EmitCountsOnStatusCheck": false
+    },
+    "Distribution": {
+      "DistributeWhileIdle": true,
+      "Shuffled": false,
+      "LedySpecies": 0,
+      "LedyQuitIfNoMatch": false,
+      "TradeCode": 7196,
+      "RandomCode": false,
+      "RemainInUnionRoomBDSP": true,
+      "SynchronizeBots": 1,
+      "SynchronizeDelayBarrier": 0,
+      "SynchronizeTimeout": 90
+    },
+    "SeedCheckSWSH": {
+      "ShowAllZ3Results": false,
+      "ResultDisplayMode": 0
+    },
+    "TradeAbuse": {
+      "TradeCooldown": 0,
+      "EchoNintendoOnlineIDCooldown": true,
+      "CooldownAbuseEchoMention": "",
+      "TradeAbuseExpiration": 120,
+      "EchoNintendoOnlineIDMulti": true,
+      "EchoNintendoOnlineIDMultiRecipients": true,
+      "TradeAbuseAction": 1,
+      "BanIDWhenBlockingUser": true,
+      "MultiAbuseEchoMention": "",
+      "MultiRecipientEchoMention": "",
+      "BannedIDs": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "BlockDetectedBannedUser": true,
+      "BannedIDMatchEchoMention": "",
+      "EchoNintendoOnlineIDLedy": true,
+      "LedyAbuseEchoMention": ""
+    },
+    "EncounterSWSH": {
+      "EncounteringType": 0,
+      "Fossil": {
+        "Species": 0,
+        "InjectWhenEmpty": false
+      },
+      "ContinueAfterMatch": 2,
+      "ScreenOff": false,
+      "CompletedEncounters": 0,
+      "CompletedLegends": 0,
+      "CompletedEggs": 0,
+      "CompletedFossils": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "RaidSWSH": {
+      "TimeToWait": 90,
+      "MinRaidCode": 8180,
+      "MaxRaidCode": 8199,
+      "RaidDescription": "",
+      "EchoPartyReady": false,
+      "FriendCode": "",
+      "NumberFriendsToAdd": 0,
+      "NumberFriendsToDelete": 0,
+      "InitialRaidsToHost": 0,
+      "RaidsBetweenAddFriends": 0,
+      "RaidsBetweenDeleteFriends": 0,
+      "RowStartAddingFriends": 1,
+      "RowStartDeletingFriends": 1,
+      "ProfileNumber": 1,
+      "ScreenOff": false,
+      "CompletedRaids": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "StopConditions": {
+      "StopOnSpecies": 0,
+      "StopOnForm": null,
+      "TargetNature": 25,
+      "TargetMinIVs": "",
+      "TargetMaxIVs": "",
+      "ShinyTarget": 0,
+      "MarkOnly": false,
+      "UnwantedMarks": "",
+      "CaptureVideoClip": false,
+      "ExtraTimeWaitCaptureVideo": 10000,
+      "MatchShinyAndIV": true,
+      "MatchFoundEchoMention": ""
+    },
+    "Discord": {
+      "Token": "",
+      "CommandPrefix": "$",
+      "BotEmbedStatus": true,
+      "ChannelStatus": true,
+      "OnlineEmoji": "",
+      "OfflineEmoji": "",
+      "ModuleBlacklist": "",
+      "AsyncCommands": false,
+      "BotGameStatus": "ZE FusionBot: Pok\u00E9mon",
+      "BotColorStatusTradeOnly": true,
+      "ReplyToThanks": true,
+      "AdditionalEmbedText": [],
+      "HelloResponse": "Hi {0}!",
+      "RoleCanTrade": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanSeedCheckorSpecialRequest": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanClone": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanDump": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanFixOT": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleRemoteControl": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleSudo": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleFavored": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "ServerBlacklist": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "UserBlacklist": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "ChannelWhitelist": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "GlobalSudoList": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "AllowGlobalSudo": true,
+      "LoggingChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "TradeStartingChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "AnnouncementChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "AnnouncementSettings": {
+        "AnnouncementThumbnailOption": 2,
+        "CustomAnnouncementThumbnailUrl": "",
+        "AnnouncementEmbedColor": 4,
+        "RandomAnnouncementThumbnail": false,
+        "RandomAnnouncementColor": false
+      },
+      "ReturnPKMs": true,
+      "ReplyCannotUseCommandInChannel": true,
+      "ConvertPKMToShowdownSet": true,
+      "ConvertPKMReplyAnyChannel": false
+    },
+    "Stream": {
+      "CreateAssets": false,
+      "CreateTradeStart": true,
+      "CreateTradeStartSprite": true,
+      "TrainerTradeStart": "(ID {0}) {1}",
+      "CreateOnDeck": true,
+      "OnDeckTake": 5,
+      "OnDeckSkip": 0,
+      "OnDeckSeparator": "\n",
+      "OnDeckFormat": "(ID {0}) - {3}",
+      "CreateOnDeck2": true,
+      "OnDeckTake2": 5,
+      "OnDeckSkip2": 0,
+      "OnDeckSeparator2": "\n",
+      "OnDeckFormat2": "(ID {0}) - {3}",
+      "CreateUserList": true,
+      "UserListTake": -1,
+      "UserListSkip": 0,
+      "UserListSeparator": ", ",
+      "UserListFormat": "(ID {0}) - {3}",
+      "CopyImageFile": true,
+      "TradeBlockFile": "",
+      "TradeBlockFormat": "block_{0}.png",
+      "CreateWaitedTime": true,
+      "WaitedTimeFormat": "hh\\:mm\\:ss",
+      "CreateEstimatedTime": true,
+      "EstimatedTimeFormat": "Estimated time: {0:F1} minutes",
+      "EstimatedFulfillmentFormat": "hh\\:mm\\:ss",
+      "CreateUsersInQueue": true,
+      "UsersInQueueFormat": "Users in Queue: {0}",
+      "CreateCompletedTrades": true,
+      "CompletedTradesFormat": "Completed Trades: {0}"
+    },
+    "Favoritism": {
+      "Mode": 0,
+      "Exponent": 0.777,
+      "Multiply": 0.5,
+      "MinimumFreeAhead": 2,
+      "MinimumFreeBypass": 3,
+      "MinimumFreeBypassFactor": 1.5
+    },
+    "Bilibili": {
+      "LogUrl": "",
+      "RoomId": 0
+    },
+    "AntiIdle": false,
+    "UseKeyboard": true,
+    "LoggingEnabled": true,
+    "MaxArchiveFiles": 14,
+    "SysBotRemoteFolder": "",
+    "SkipConsoleBotCreation": false,
+    "Legality": {
+      "MGDBPath": "",
+      "GeneratePathTrainerInfo": "",
+      "GenerateOT": "FreeMons.Org",
+      "GenerateTID16": 12345,
+      "GenerateSID16": 54321,
+      "GenerateLanguage": 2,
+      "PrioritizeGame": true,
+      "PrioritizeGameVersion": 0,
+      "SetAllLegalRibbons": false,
+      "SetMatchingBalls": true,
+      "ForceSpecifiedBall": true,
+      "ForceLevel100for50": false,
+      "EnableHOMETrackerCheck": false,
+      "DisallowNonNatives": false,
+      "DisallowTracked": false,
+      "PrioritizeEncounters": [
+        16,
+        1,
+        4,
+        2,
+        8
+      ],
+      "SetBattleVersion": false,
+      "EnableEasterEggs": false,
+      "AllowTrainerDataOverride": false,
+      "AllowBatchCommands": true,
+      "Timeout": 15,
+      "ResetHOMETracker": false,
+      "UseTradePartnerInfo": true
+    },
+    "Folder": {
+      "Dump": true,
+      "DistributeFolder": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot\\SysBot.Pokemon.WinForms\\bin\\Release\\net9.0-windows\\distribute",
+      "DumpFolder": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot\\SysBot.Pokemon.WinForms\\bin\\Release\\net9.0-windows\\dump"
+    }
+  },
+  "Discord": null,
+  "Bots": [
+    {
+      "Connection": {
+        "Protocol": 0,
+        "IP": "192.168.1.241",
+        "Port": 6000,
+        "UseCRLF": true
+      },
+      "CurrentRoutineType": 0,
+      "InitialRoutine": 2,
+      "NextRoutineType": 2
+    }
+  ]
+}

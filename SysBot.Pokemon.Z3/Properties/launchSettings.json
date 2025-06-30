@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SysBot.Pokemon.Z3": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

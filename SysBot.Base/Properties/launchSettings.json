@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SysBot.Base": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
