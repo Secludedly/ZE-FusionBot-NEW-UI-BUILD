@@ -54,12 +54,6 @@
               "target": "Package",
               "version": "[2.2.29, )"
             },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.2, )",
-              "autoReferenced": true
-            },
             "NLog": {
               "target": "Package",
               "version": "[5.3.4, )"
@@ -82,11 +76,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

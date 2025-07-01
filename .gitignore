@@ -1,0 +1,6 @@
+*.bin
+/SysBot.Base/bin
+.vs/SysBot.NET-UI/FileContentIndex/0f8ff123-9ac4-4a78-8afb-659a714f03a5.vsidx
+.vs/SysBot.NET-UI/v17/HierarchyCache.v1.txt
+/SysBot.Pokemon.WinForms/bin/Release
+SysBot.Pokemon.WinForms/obj/Release/net9.0-windows/PublishOutputs.8f77702c07.txt

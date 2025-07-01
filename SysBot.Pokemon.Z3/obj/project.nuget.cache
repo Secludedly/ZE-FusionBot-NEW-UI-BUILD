@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ET1emhAOqHQ=",
+  "dgSpecHash": "pSlsBFq0UXw=",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\source\\repos\\ZE-FusionBot-NEW-UI-BUILD\\SysBot.Pokemon.Z3\\SysBot.Pokemon.Z3.csproj",
   "expectedPackageFiles": [
@@ -15,7 +15,6 @@
     "C:\\Users\\Admin\\.nuget\\packages\\libusbdotnet\\2.2.29\\libusbdotnet.2.2.29.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0\\microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.2\\microsoft.net.illink.tasks.9.0.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.4\\microsoft.win32.systemevents.9.0.4.nupkg.sha512",

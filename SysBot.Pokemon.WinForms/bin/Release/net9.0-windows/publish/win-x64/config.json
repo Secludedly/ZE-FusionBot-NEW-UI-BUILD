@@ -81,11 +81,11 @@
       "ExtraTimeOpenCodeEntry": 0
     },
     "BotName": "",
-    "ThemeOption": "Black \u0026 White",
+    "ThemeOption": "Poke",
     "Trade": {
       "TradeConfiguration": {
         "MinTradeCode": 90900225,
-        "MaxTradeCode": 90909969,
+        "MaxTradeCode": 90909925,
         "StoreTradeCodes": true,
         "TradeWaitTime": 30,
         "MaxTradeConfirmTime": 25,
@@ -315,11 +315,11 @@
       "CountStatsSettings": {
         "CompletedSurprise": 0,
         "CompletedDistribution": 0,
-        "CompletedTrades": 96423,
-        "CompletedFixOTs": 176,
+        "CompletedTrades": 100009,
+        "CompletedFixOTs": 202,
         "CompletedSeedChecks": 0,
-        "CompletedClones": 1833,
-        "CompletedDumps": 388,
+        "CompletedClones": 1861,
+        "CompletedDumps": 390,
         "EmitCountsOnStatusCheck": true
       },
       "ScreenOff": false,
@@ -620,7 +620,7 @@
       "MatchFoundEchoMention": ""
     },
     "Discord": {
-      "Token": "NzU0MTk0MTQxOTEwNTMyMTQ3.GkFpO7.b_jLDkO-DizTem7uYIFW3vDsV6yhCn0OFqqYqI",
+      "Token": "NzU0MTk0MTQxOTEwNTMyMTQ3.Ga31OW.KLBMTy_BgFYYu4ENqSTMhaGNhK9Hc0f4Z-LDZQ",
       "CommandPrefix": ".",
       "BotEmbedStatus": true,
       "ChannelStatus": true,
@@ -628,7 +628,7 @@
       "OfflineEmoji": "\uD83D\uDD34closed-",
       "ModuleBlacklist": "",
       "AsyncCommands": false,
-      "BotGameStatus": "",
+      "BotGameStatus": "ZE FusionBot: Pok\u00E9mon",
       "BotColorStatusTradeOnly": true,
       "ReplyToThanks": false,
       "AdditionalEmbedText": [
@@ -1004,8 +1004,8 @@
       "DisallowNonNatives": false,
       "DisallowTracked": false,
       "PrioritizeEncounters": [
-        1,
         16,
+        1,
         4,
         2,
         8
