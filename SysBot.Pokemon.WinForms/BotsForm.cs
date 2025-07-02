@@ -43,7 +43,6 @@ namespace SysBot.Pokemon.WinForms
         private ComboBox _comboBox1;
 
         private FlowLayoutPanel _FLP_Bots;
-        private IPokeBotRunner _runner;
         private PictureBox _pictureBox1;
 
 
@@ -130,21 +129,13 @@ namespace SysBot.Pokemon.WinForms
             Size = new Size(757, 53);
         }
 
-        public void SetRunner(IPokeBotRunner runner)
-        {
-            _runner = runner;
-        }
-
-        public void AddNewBot(PokeBotState? cfg)
+        public void AddNewBot(IPokeBotRunner runner, PokeBotState cfg)
         {
             if (cfg == null)
                 return;
-            // Add the bot to the runner first
-            var botInstance = _runner.CreateBotFromConfig(cfg);
-            _runner.Add(botInstance);
             // Now create the controller for the same config
             var controller = new BotController();
-            controller.Initialize(_runner, cfg);
+            controller.Initialize(runner, cfg);
             controller.Margin = new Padding(0, 1, 0, 1);
             controller.Remove += (s, e) => RemoveBot(controller);
             controller.Click += (s, e) => LoadBotSettingsToUI(cfg);

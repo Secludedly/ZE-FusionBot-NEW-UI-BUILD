@@ -1,6 +1,7 @@
 using FontAwesome.Sharp;
 using PKHeX.Core;
 using SysBot.Base;
+using SysBot.Pokemon.Discord;
 using SysBot.Pokemon.Helpers;
 using SysBot.Pokemon.WinForms.Properties;
 using SysBot.Pokemon.Z3;
@@ -12,7 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -57,9 +57,6 @@ namespace SysBot.Pokemon.WinForms
 
         // HubForm loading
         private HubForm _hubForm;
-
-        private bool _initialized = false;
-
 
         // Main Constructor
         public Main()
@@ -126,173 +123,95 @@ namespace SysBot.Pokemon.WinForms
         }
 
         // Runs once when Main form first loads
-        // Runs once when Main form first loads
         private async Task InitializeAsync()
         {
-            if (_initialized || IsUpdating)
+            if (IsUpdating)
                 return;
-            _initialized = true;
 
-            // Set the seed checker for SWSH mode
             PokeTradeBotSWSH.SeedChecker = new Z3SeedSearchHandler<PK8>();
 
-            // Check for updates
             try
             {
                 var (updateAvailable, _, _) = await UpdateChecker.CheckForUpdatesAsync();
                 hasUpdate = updateAvailable;
             }
             catch { }
-
-            // === BotsForm Setup ===
             _botsForm = new BotsForm();
+            _botsForm.GameModeChanged += (_, newMode) =>
+            {
+                Config.Mode = newMode;
+                SaveCurrentConfig();
+                RunningEnvironment = GetRunner(Config);
+                InitUtil.InitializeStubs(newMode);
+                UpdateBackgroundImage(newMode);
+                UpdateRunnerAndUI();
+            };
 
-            
-                _botsForm.GameModeChanged -= HandleGameModeChanged; // Unsubscribe first
-                _botsForm.GameModeChanged += HandleGameModeChanged; // Now add cleanly
-
-
-            // === LogsForm Setup ===
             _logsForm = new LogsForm();
             LogUtil.Forwarders.Add(new UIRichTextBoxForwarder(_logsForm.LogsBox));
-            _logsForm.LogsBox.MaxLength = 32_767;
+            _logsForm.LogsBox.MaxLength = 32767;
 
-            // === Config Load/Create ===
             if (File.Exists(Program.ConfigPath))
             {
-                var json = File.ReadAllText(Program.ConfigPath);
-                Config = JsonSerializer.Deserialize<ProgramConfig>(json) ?? new ProgramConfig();
+                var lines = File.ReadAllText(Program.ConfigPath);
+                Config = JsonSerializer.Deserialize<ProgramConfig>(lines) ?? new ProgramConfig();
                 LogConfig.MaxArchiveFiles = Config.Hub.MaxArchiveFiles;
                 LogConfig.LoggingEnabled = Config.Hub.LoggingEnabled;
+
+                // Clean up any invalid bot entries
+                Config.Bots = Config.Bots
+                    .Where(b => b != null && b.IsValid() && !string.IsNullOrWhiteSpace(b.Connection?.IP))
+                    .GroupBy(b => $"{b.Connection.IP}:{b.Connection.Port}")
+                    .Select(g => g.First())
+                    .ToArray();
+
+                _botsForm.GameModeBox.SelectedValue = (int)Config.Mode;
+                RunningEnvironment = GetRunner(Config);
+
+                foreach (var bot in Config.Bots)
+                {
+                    if (!Bots.Any(b => b.Connection.Equals(bot.Connection)))
+                    {
+                        if (string.IsNullOrWhiteSpace(bot.Connection?.IP) || bot.Connection.Port <= 0)
+                        {
+                            Console.WriteLine("Skipping invalid bot with empty IP or port.");
+                            continue;
+                        }
+                        bot.Initialize();
+                        AddBot(bot);
+                    }
+                }
             }
             else
             {
                 Config = new ProgramConfig();
+                RunningEnvironment = GetRunner(Config);
                 Config.Hub.Folder.CreateDefaults(Program.WorkingDirectory);
             }
 
-            // === Runner Setup ===
-            RunningEnvironment = GetRunner(Config);
-            _botsForm.SetRunner(RunningEnvironment);
-
-            if (RunningEnvironment is BotRunner<PokeBotState> r)
-                r.Clear();
-
-            // === Bot Instantiation ===
-            foreach (var bot in Config.Bots)
-            {
-                if (!Bots.Any(b => b.Connection.Equals(bot.Connection)))
-                {
-                    bot.Initialize();
-                    AddBot(bot);
-                }
-            }
-
-            // === Setup BotsForm UI ===
-            if (_botsForm.BotPanel.Controls.Count == 0)
-                SetupBotsFormUI();
-
+            LoadControls();
+            Text = $"{(string.IsNullOrEmpty(Config.Hub.BotName) ? "ZE FusionBot |" : Config.Hub.BotName)} {TradeBot.Version} | Mode: {Config.Mode}";
             InitUtil.InitializeStubs(Config.Mode);
+            _isFormLoading = false;
             UpdateBackgroundImage(Config.Mode);
-
-            // === Title and Display ===
-            string displayTitle = $"{(string.IsNullOrEmpty(Config.Hub.BotName) ? "ZE FusionBot |" : Config.Hub.BotName)} {TradeBot.Version} | Mode: {Config.Mode}";
-            Text = displayTitle;
-            lblTitle.Text = displayTitle;
+            ActivateButton(iconButton1, RGBColors.color4);
             OpenChildForm(_botsForm);
+            SaveCurrentConfig();
 
-            // === Button Event Wiring ===
             _botsForm.StartButton.Click += B_Start_Click;
             _botsForm.StopButton.Click += B_Stop_Click;
             _botsForm.RebootStopButton.Click += B_RebootStop_Click;
             _botsForm.UpdateButton.Click += Updater_Click;
             _botsForm.AddBotButton.Click += B_New_Click;
 
-            _isFormLoading = false;
-            SaveCurrentConfig();
+            lblTitle.Text = Text;
         }
 
-        // Refresh the form title and label when runner changes
         private void UpdateRunnerAndUI()
         {
             Text = $"{(string.IsNullOrEmpty(Config.Hub.BotName) ? "ZE FusionBot |" : Config.Hub.BotName)} {TradeBot.Version} | Mode: {Config.Mode}";
             lblTitle.Text = Text;
         }
-
-        // Populate dropdowns and bot panel based on current environment and config
-        private void SetupBotsFormUI()
-        {
-            if (_botsForm == null || RunningEnvironment == null)
-            {
-                Console.WriteLine("Tried to set up bots UI before initialization.");
-                return;
-            }
-
-            // === DROPDOWNS ===
-            var routines = Enum.GetValues(typeof(PokeRoutineType))
-                .Cast<PokeRoutineType>()
-                .Where(z => RunningEnvironment.SupportsRoutine(z))
-                .Select(z => new { Text = z.ToString(), Value = (int)z })
-                .ToList();
-            _botsForm.RoutineBox.DisplayMember = "Text";
-            _botsForm.RoutineBox.ValueMember = "Value";
-            _botsForm.RoutineBox.DataSource = routines;
-            _botsForm.RoutineBox.SelectedValue = (int)PokeRoutineType.FlexTrade;
-
-            var protocols = Enum.GetValues(typeof(SwitchProtocol))
-                .Cast<SwitchProtocol>()
-                .Select(z => new { Text = z.ToString(), Value = (int)z })
-                .ToList();
-            _botsForm.ProtocolBox.DisplayMember = "Text";
-            _botsForm.ProtocolBox.ValueMember = "Value";
-            _botsForm.ProtocolBox.DataSource = protocols;
-            _botsForm.ProtocolBox.SelectedValue = (int)SwitchProtocol.WiFi;
-
-            var gameModes = Enum.GetValues(typeof(ProgramMode))
-                .Cast<ProgramMode>()
-                .Where(m => m != ProgramMode.None)
-                .Select(mode => new { Text = mode.ToString(), Value = (int)mode })
-                .ToList();
-            _botsForm.GameModeBox.DisplayMember = "Text";
-            _botsForm.GameModeBox.ValueMember = "Value";
-            _botsForm.GameModeBox.DataSource = gameModes;
-            _botsForm.GameModeBox.SelectedValue = (int)Config.Mode;
-
-            // === BOT UI CONTROLS ===
-            if (_botsForm.BotPanel.Controls.Count > 0)
-                return;
-
-            foreach (var bot in Bots)
-                AddBotControl(bot);
-
-            SaveCurrentConfig();
-        }
-
-        private void HandleGameModeChanged(object? sender, ProgramMode newMode)
-        {
-            if (Config.Mode == newMode)
-                return;
-
-            Config.Mode = newMode;
-            SaveCurrentConfig();
-
-            if (RunningEnvironment is BotRunner<PokeBotState> runner)
-                runner.Clear();
-
-            _botsForm.BotPanel.Controls.Clear();
-            Bots.Clear();
-
-            RunningEnvironment = GetRunner(Config);
-            _botsForm.SetRunner(RunningEnvironment);
-            SetupBotsFormUI();
-
-            InitUtil.InitializeStubs(newMode);
-            UpdateBackgroundImage(newMode);
-            UpdateRunnerAndUI();
-
-            Console.WriteLine($"GameModeChanged triggered: New Mode = {newMode}");
-        }
-
 
 
         // Save the current config to the file
@@ -322,6 +241,41 @@ namespace SysBot.Pokemon.WinForms
                 }
                 await Task.Delay(2_000).ConfigureAwait(false); // Add a delay of 2 seconds before the next iteration
             }
+        }
+
+        // Load the controls for the BotsForm
+        private void LoadControls()
+        {
+            // Establish global minimum size for the BotsForm
+            MinimumSize = Size;
+
+            // Routine Selection
+            var routines = ((PokeRoutineType[])Enum.GetValues(typeof(PokeRoutineType))).Where(z => RunningEnvironment.SupportsRoutine(z)) // Get all routine types
+                .Select(z => new { Text = z.ToString(), Value = (int)z }).ToList(); // Create a list of routine types with their text and value
+            _botsForm.RoutineBox.DisplayMember = "Text";                            // Set the display text for the RoutineBox
+            _botsForm.RoutineBox.ValueMember = "Value";                             // Set the value number for the RoutineBox (Flextrade, etc.)
+            _botsForm.RoutineBox.DataSource = routines;                             // Bind the RoutineBox to the list of routine types (Dropdown list)
+            _botsForm.RoutineBox.SelectedValue = (int)PokeRoutineType.FlexTrade;    // Set the default to FlexTrade in RoutineBox
+
+            // Protocol Selection
+            var protocols = ((SwitchProtocol[])Enum.GetValues(typeof(SwitchProtocol))) // Get all switch protocols
+                .Select(z => new { Text = z.ToString(), Value = (int)z }).ToList();    // Create a list of protocols with their text and value
+            _botsForm.ProtocolBox.DisplayMember = "Text";                              // Set the display text for the ProtocolBox
+            _botsForm.ProtocolBox.ValueMember = "Value";                               // Set the value number for the ProtocolBox (WiFi/USB)
+            _botsForm.ProtocolBox.DataSource = protocols;                              // Bind the ProtocolBox to the list of protocols (Dropdown list)
+            _botsForm.ProtocolBox.SelectedValue = (int)SwitchProtocol.WiFi;            // Set the default to WiFi in ProtocolBox
+
+            // GameMode Selection
+            var gameModes = Enum.GetValues(typeof(ProgramMode))                    // Get all program modes
+                .Cast<ProgramMode>()                                               // Cast to ProgramMode
+                .Where(m => m != ProgramMode.None)                                 // Exclude Invalid mode from list (Dropdown)
+                .Select(mode => new { Text = mode.ToString(), Value = (int)mode }) // Create a list of game modes with their text and value
+                .ToList();                                                         // Convert list to Text and Value properties
+            _botsForm.GameModeBox.DisplayMember = "Text";                          // Set the display text for GameModeBox
+            _botsForm.GameModeBox.ValueMember = "Value";                           // Set the value number for GameModeBox (SV, SWSH, BDSP, etc.)
+            _botsForm.GameModeBox.DataSource = gameModes;                          // Bind the GameModeBox to the list of game modes (Dropdown list)
+            _botsForm.GameModeBox.SelectedValue = (int)Config.Mode;                // Set the default to current/last used mode in GameModeBox
+            SaveCurrentConfig();                                                   // Save the current config for BotsForm data
         }
 
         // Start the bot with the current config
@@ -365,8 +319,6 @@ namespace SysBot.Pokemon.WinForms
         {
             foreach (var c in _botsForm.BotPanel.Controls.OfType<BotController>()) // Iterate through each BotController in the BotsForm
                 c.SendCommand(cmd);                                                // Send the command to the bot controller
-
-            EchoUtil.Echo($"All bots have been issued a command to {cmd}.");
         }
 
         // Stop or Idle/Resume all bots
@@ -419,114 +371,76 @@ namespace SysBot.Pokemon.WinForms
         }
 
         // Update handling
-        private async void Updater_Click(object sender, EventArgs e) // Check for updates on Update button click
+        private async void Updater_Click(object sender, EventArgs e)
         {
-            var (updateAvailable, updateRequired, newVersion) = await UpdateChecker.CheckForUpdatesAsync(); // Check for updates asynchronously
-
-            // If no update is available, show a message box asking if the user wants to re-download the current version
-            if (!updateAvailable)
-            {
-                var result = MessageBox.Show(
-                "You are on the latest version. Would you like to re-download the current version?",
-                "Update Check",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    UpdateForm updateForm = new UpdateForm(updateRequired, newVersion, updateAvailable: false); // Show the UpdateForm with the current version
-                    updateForm.ShowDialog();                                                                    // Show the UpdateForm dialog
-                }
-            }
-            else
-            {
-                UpdateForm updateForm = new UpdateForm(updateRequired, newVersion, updateAvailable: true); // Show the UpdateForm with the new version
-                updateForm.ShowDialog();                                                                   // Show the UpdateForm dialog
-            }
+            await UpdateChecker.CheckForUpdatesAsync(forceShow: true); // <-- this will auto-handle the UpdateForm
         }
+
 
         // Add a new bot to the environment and UI
         private bool AddBot(PokeBotState? cfg)
         {
-            if (Bots.Any(z => z.Connection.Equals(cfg.Connection)))
-            {
-                Console.WriteLine($"[DUPLICATE WARNING] Already added: {cfg.Connection.IP}:{cfg.Connection.Port}");
-                return false;
-            }
-
             if (cfg == null || !cfg.IsValid())
                 return false;
 
-            // Avoid adding if already exists
             if (Bots.Any(z => z.Connection.Equals(cfg.Connection)) ||
-                RunningEnvironment.Bots.Any(z => z.Bot.Config.Equals(cfg.Connection)))
+                RunningEnvironment.Bots.Any(z => z.Bot.Config.Connection.Equals(cfg.Connection)) ||
+                _botsForm.BotPanel.Controls.OfType<BotController>().Any(c => c.State.Connection.Equals(cfg.Connection)))
             {
                 Console.WriteLine("Duplicate bot detected.");
                 return false;
             }
 
-            PokeRoutineExecutorBase newBot;
+            if (!RunningEnvironment.SupportsRoutine(cfg.InitialRoutine))
+            {
+                Console.WriteLine($"Mode {Config.Mode} doesn't support routine {cfg.InitialRoutine}.");
+                return false;
+            }
+
             try
             {
-                if (!RunningEnvironment.SupportsRoutine(cfg.InitialRoutine))
-                {
-                    Console.WriteLine($"Mode {Config.Mode} doesn't support routine {cfg.InitialRoutine}.");
-                    return false;
-                }
-
-                newBot = RunningEnvironment.CreateBotFromConfig(cfg);
+                var newBot = RunningEnvironment.CreateBotFromConfig(cfg);
+                RunningEnvironment.Add(newBot);
+                AddBotControl(cfg);
+                Bots.Add(cfg);
+                Config.Bots = Bots.ToArray();
+                SaveCurrentConfig();
+                Console.WriteLine($"Added bot: {cfg.Connection.IP}:{cfg.Connection.Port}");
+                return true;
             }
             catch (Exception ex)
             {
                 WinFormsUtil.Error($"Failed to create bot: {ex.Message}");
                 return false;
             }
-
-            try
-            {
-                RunningEnvironment.Add(newBot);
-            }
-            catch (ArgumentException ex)
-            {
-                WinFormsUtil.Error(ex.Message);
-                return false;
-            }
-
-            AddBotControl(cfg);
-            Bots.Add(cfg);
-            Config.Bots = Bots.ToArray();
-            SaveCurrentConfig();
-            return true;
         }
 
-
-        // Adds new bot controllers to the BotsForm class
-        private void AddBotControl(PokeBotState cfg) // Add a new bot control to the BotsForm
+        private void AddBotControl(PokeBotState cfg)
         {
-            var row = new BotController { Width = _botsForm.BotPanel.Width }; // Create a new BotController instance with the width of the BotPanel
-            row.Initialize(RunningEnvironment, cfg);                          // Initialize the BotController with the current running environment and configuration
-            _botsForm.BotPanel.Controls.Add(row);                             // Add the BotController to the BotPanel in the BotsForm
-            _botsForm.BotPanel.SetFlowBreak(row, true);                       // Set a flow break after the BotController to ensure it starts on a new line in the panel
+            var row = new BotController { Width = _botsForm.BotPanel.Width };
+            row.Initialize(RunningEnvironment, cfg);
+            _botsForm.BotPanel.Controls.Add(row);
+            _botsForm.BotPanel.SetFlowBreak(row, true);
 
-            // Set the BotController state to the current configuration
             row.Click += (s, e) =>
             {
-                var details = cfg.Connection;                                 // Get the connection details from the configuration
-                _botsForm.IPBox.Text = details.IP;                            // Set the IP address in the BotsForm
-                _botsForm.PortBox.Value = details.Port;                       // Set the port number in the BotsForm
-                _botsForm.ProtocolBox.SelectedIndex = (int)details.Protocol;  // Set the protocol in the BotsForm
-                _botsForm.RoutineBox.SelectedValue = (int)cfg.InitialRoutine; // Set the initial routine in the BotsForm
+                var details = cfg.Connection;
+                _botsForm.IPBox.Text = details.IP;
+                _botsForm.PortBox.Value = details.Port;
+                _botsForm.ProtocolBox.SelectedIndex = (int)details.Protocol;
+                _botsForm.RoutineBox.SelectedValue = (int)cfg.InitialRoutine;
             };
 
-            // Remove button handling for the BotController
             row.Remove += (s, e) =>
             {
-                Bots.Remove(row.State);                    // Remove the bot configuration from the Bots list
-                RunningEnvironment.Remove(row.State, !RunningEnvironment.Config.SkipConsoleBotCreation); // Remove the bot from the running environment
-                _botsForm.BotPanel.Controls.Remove(row);   // Remove the BotController from the BotPanel
-                Config.Bots = Bots.ToArray();              // Update the configuration with the remaining bots
-                SaveCurrentConfig();                       // Save the current configuration to the config file
+                Bots.RemoveAll(b => b.Connection.Equals(row.State.Connection));
+                RunningEnvironment.Remove(row.State, !RunningEnvironment.Config.SkipConsoleBotCreation);
+                _botsForm.BotPanel.Controls.Remove(row);
+                Config.Bots = Bots.ToArray();
+                SaveCurrentConfig();
             };
         }
+
 
         // Creates a new bot config based on current settings in BotsForm class
         private PokeBotState CreateNewBotConfig() // Create a new bot configuration based on the current settings in the BotsForm
@@ -629,8 +543,6 @@ namespace SysBot.Pokemon.WinForms
         // Resize the BotController controls when the panel is resized, focused on width
         private void FLP_Bots_Resize(object sender, EventArgs e)
         {
-            if (_botsForm?.BotPanel?.Controls == null)
-                return;
             // Resize all BotController controls in the BotPanel to match the width of the panel
             foreach (var c in _botsForm.BotPanel.Controls.OfType<BotController>()) // Iterate through each BotController in the BotPanel
                 c.Width = _botsForm.BotPanel.Width;                                // Set the width of the BotController to the width of the BotPanel
@@ -656,7 +568,6 @@ namespace SysBot.Pokemon.WinForms
         // Method to activate Bots button and change its color, loading BotsForm class
         private void Bots_Click(object sender, EventArgs e)
         {
-            SetupBotsFormUI();
             ActivateButton(sender, RGBColors.color4); // Change the color of the active Bots button
             OpenChildForm(_botsForm);                 // Load the BotsForm in the main panel
         }
@@ -960,13 +871,6 @@ namespace SysBot.Pokemon.WinForms
                     WriteIndented = true                     // Format the json with indentation for readability
                 });
                 File.WriteAllText(Program.ConfigPath, json); // Save the serialized json to the config file
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    IgnoreNullValues = true,
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-                };
-
             }
             catch (Exception ex)
             {

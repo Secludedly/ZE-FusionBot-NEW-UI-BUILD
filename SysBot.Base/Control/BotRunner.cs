@@ -6,12 +6,6 @@ namespace SysBot.Base;
 
 public class BotRunner<T> where T : class, IConsoleBotConfig
 {
-    public virtual void Clear()
-    {
-        StopAll();
-        Bots.Clear();
-    }
-
     public readonly List<BotSource<T>> Bots = [];
 
     public bool IsRunning => Bots.Any(z => z.IsRunning);

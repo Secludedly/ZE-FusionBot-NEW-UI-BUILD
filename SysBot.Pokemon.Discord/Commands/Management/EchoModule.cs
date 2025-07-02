@@ -58,12 +58,13 @@ namespace SysBot.Pokemon.Discord
         public static void RestoreChannels(DiscordSocketClient discord, DiscordSettings cfg)
         {
             Settings = cfg;
+            Channels.Clear(); // Clear previously registered channels
+
             foreach (var ch in cfg.AnnouncementChannels)
             {
                 if (discord.GetChannel(ch.ID) is ISocketMessageChannel c)
                     AddEchoChannel(c, ch.ID);
             }
-            // EchoUtil.Echo("Added echo notification to Discord channel(s) on Bot startup.");
         }
 
         [Command("Announce", RunMode = RunMode.Async)]
@@ -233,6 +234,9 @@ namespace SysBot.Pokemon.Discord
 
         private static void AddEchoChannel(ISocketMessageChannel c, ulong cid)
         {
+            if (Channels.ContainsKey(cid))
+                return; // Prevent duplicate registration
+
             async void l(string msg) => await SendMessageWithRetry(c, msg).ConfigureAwait(false);
             async void rb(byte[] bytes, string fileName, EmbedBuilder embed) => await RaidEmbedAsync(c, bytes, fileName, embed).ConfigureAwait(false);
 
@@ -240,6 +244,7 @@ namespace SysBot.Pokemon.Discord
             var entry = new EchoChannel(cid, c.Name, l, rb);
             Channels.Add(cid, entry);
         }
+
 
         public static bool IsEchoChannel(ISocketMessageChannel c)
         {

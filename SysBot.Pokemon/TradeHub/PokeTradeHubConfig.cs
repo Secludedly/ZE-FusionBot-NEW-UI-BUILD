@@ -26,9 +26,6 @@ public sealed class PokeTradeHubConfig : BaseConfig
     [Category(BotTrade), Description("Name of the Discord Bot the Program is Running. This will Title the window for easier recognition. Requires program restart.")]
     public string BotName { get; set; } = string.Empty;
 
-    [Browsable(false)]
-    [Category(Integration), Description("Users Theme Option Choice.")]
-    public string ThemeOption { get; set; } = string.Empty;
     // Trade Bots
 
     [Category(BotTrade)]
@@ -76,9 +73,4 @@ public sealed class PokeTradeHubConfig : BaseConfig
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public FavoredPrioritySettings Favoritism { get; set; } = new();
 
-    [Browsable(false)]
-    [Category(Integration)]
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public BilibiliSettings Bilibili { get; set; } = new();
-
-}
+    }

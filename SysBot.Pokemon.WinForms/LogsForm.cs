@@ -22,7 +22,7 @@ namespace SysBot.Pokemon.WinForms
                 BackColor = Color.FromArgb(10, 10, 40),
                 ForeColor = Color.FromArgb(51, 255, 255),
                 WordWrap = false,
-                ScrollBars = RichTextBoxScrollBars.Vertical,
+                ScrollBars = RichTextBoxScrollBars.Both,
                 ContextMenuStrip = CreateContextMenu()
             };
 
