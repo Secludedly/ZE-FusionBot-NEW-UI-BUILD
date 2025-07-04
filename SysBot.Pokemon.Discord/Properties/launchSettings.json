@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SysBot.Pokemon.Discord": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}
