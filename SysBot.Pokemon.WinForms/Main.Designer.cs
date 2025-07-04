@@ -320,6 +320,7 @@ namespace SysBot.Pokemon.WinForms
             shadowPanelTop.Name = "shadowPanelTop";
             shadowPanelTop.Size = new Size(769, 12);
             shadowPanelTop.TabIndex = 2;
+            shadowPanelTop.Paint += shadowPanelTop_Paint;
             // 
             // shadowPanelLeft
             // 

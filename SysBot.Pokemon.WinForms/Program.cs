@@ -3,16 +3,13 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-
 namespace SysBot.Pokemon.WinForms;
-
 static class Program
 {
     public static readonly string WorkingDirectory = Environment.CurrentDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
     public static string ConfigPath { get; private set; } = Path.Combine(WorkingDirectory, "config.json");
-
     /// <summary>
-    ///  The main entry point for the application.
+    /// The main entry point for the application.
     /// </summary>
     [STAThread]
     private static void Main()
@@ -24,10 +21,26 @@ static class Program
         var cfg = Array.Find(cmd, z => z.EndsWith(".json"));
         if (cfg != null)
             ConfigPath = cmd[0];
-
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
-        }
+         var splash = new SplashScreen();
+         splash.StartPosition = FormStartPosition.Manual;
+         splash.TopMost = true;
+         int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+         int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+         int splashWidth = splash.Width;
+         int splashHeight = splash.Height;
+         int splashLeft = (screenWidth - splashWidth) / 2;
+         int splashTop = (screenHeight - splashHeight) / 2;
+         splash.Location = new Point(splashLeft, splashTop);
+         splash.Show();
+         var splashThread = new Thread(new ThreadStart(() =>
+         {
+         Thread.Sleep(2000);
+         splash.Invoke(new Action(() => splash.Close()));
+         }));
+        
+         splashThread.Start();
+        Application.Run(new Main());
     }
-
+}

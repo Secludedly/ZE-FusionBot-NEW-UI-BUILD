@@ -45,8 +45,6 @@ namespace SysBot.Pokemon.WinForms
         private FlowLayoutPanel _FLP_Bots;
         private PictureBox _pictureBox1;
 
-
-
         public BotsForm()
         {
             InitializeControls();
@@ -62,7 +60,7 @@ namespace SysBot.Pokemon.WinForms
             _B_New = new FancyButton { Text = "Add", Location = new Point(424, 55), Size = new Size(54, 30) };
 
             // Colors for boxes and controls
-            Color darkBG = Color.FromArgb(20, 19, 57);
+            Color darkBG = Color.FromArgb(28, 27, 65);
             Color whiteText = Color.White;
 
             // Controls
@@ -185,167 +183,5 @@ namespace SysBot.Pokemon.WinForms
             _CB_Protocol.SelectedValue = (int)details.Protocol;
             _CB_Routine.SelectedValue = (int)cfg.InitialRoutine;
         }
-
-        private void InitializeComponent()
-        {
-            _B_Start = new Button();
-            _B_Stop = new Button();
-            _B_RebootStop = new Button();
-            _updater = new Button();
-            _B_New = new Button();
-            _TB_IP = new TextBox();
-            _NUD_Port = new NumericUpDown();
-            _CB_Protocol = new ComboBox();
-            _CB_Routine = new ComboBox();
-            _comboBox1 = new ComboBox();
-            _pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)_NUD_Port).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)_pictureBox1).BeginInit();
-            SuspendLayout();
-            // 
-            // B_Start
-            // 
-            _B_Start.Location = new Point(12, 3);
-            _B_Start.Name = "B_Start";
-            _B_Start.Size = new Size(94, 29);
-            _B_Start.TabIndex = 0;
-            _B_Start.Text = "Start";
-            _B_Start.UseVisualStyleBackColor = true;
-            // 
-            // B_Stop
-            // 
-            _B_Stop.Location = new Point(112, 3);
-            _B_Stop.Name = "B_Stop";
-            _B_Stop.Size = new Size(94, 29);
-            _B_Stop.TabIndex = 1;
-            _B_Stop.Text = "Stop";
-            _B_Stop.UseVisualStyleBackColor = true;
-            // 
-            // B_RebootStop
-            // 
-            _B_RebootStop.Location = new Point(212, 3);
-            _B_RebootStop.Name = "B_RebootStop";
-            _B_RebootStop.Size = new Size(94, 29);
-            _B_RebootStop.TabIndex = 2;
-            _B_RebootStop.Text = "Reboot";
-            _B_RebootStop.UseVisualStyleBackColor = true;
-            // 
-            // updater
-            // 
-            _updater.Location = new Point(312, 3);
-            _updater.Name = "updater";
-            _updater.Size = new Size(94, 29);
-            _updater.TabIndex = 3;
-            _updater.Text = "Update";
-            _updater.UseVisualStyleBackColor = true;
-            // 
-            // B_New
-            // 
-            _B_New.Location = new Point(574, 55);
-            _B_New.Name = "B_New";
-            _B_New.Size = new Size(94, 29);
-            _B_New.TabIndex = 4;
-            _B_New.Text = "Add";
-            _B_New.UseVisualStyleBackColor = true;
-            // 
-            // TB_IP
-            // 
-            _TB_IP.Location = new Point(12, 50);
-            _TB_IP.Name = "TB_IP";
-            _TB_IP.Size = new Size(146, 27);
-            _TB_IP.TabIndex = 5;
-            // 
-            // NUD_Port
-            // 
-            _NUD_Port.Location = new Point(164, 50);
-            _NUD_Port.Name = "NUD_Port";
-            _NUD_Port.Size = new Size(63, 27);
-            _NUD_Port.TabIndex = 6;
-            // 
-            // CB_Protocol
-            // 
-            _CB_Protocol.FormattingEnabled = true;
-            _CB_Protocol.Location = new Point(233, 49);
-            _CB_Protocol.Name = "CB_Protocol";
-            _CB_Protocol.Size = new Size(73, 28);
-            _CB_Protocol.TabIndex = 7;
-            // 
-            // CB_Routine
-            // 
-            _CB_Routine.FormattingEnabled = true;
-            _CB_Routine.Location = new Point(312, 50);
-            _CB_Routine.Name = "CB_Routine";
-            _CB_Routine.Size = new Size(102, 28);
-            _CB_Routine.TabIndex = 8;
-            // 
-            // comboBox1
-            // 
-            _comboBox1.FormattingEnabled = true;
-            _comboBox1.Location = new Point(654, 12);
-            _comboBox1.Name = "comboBox1";
-            _comboBox1.Size = new Size(73, 28);
-            _comboBox1.TabIndex = 9;
-            // 
-            // pictureBox1
-            // 
-            _pictureBox1.Location = new Point(132, 182);
-            _pictureBox1.Name = "pictureBox1";
-            _pictureBox1.Size = new Size(125, 62);
-            _pictureBox1.TabIndex = 10;
-            _pictureBox1.TabStop = false;
-            // 
-            // BotsForm
-            // 
-            ClientSize = new Size(739, 258);
-            Controls.Add(_pictureBox1);
-            Controls.Add(_comboBox1);
-            Controls.Add(_CB_Routine);
-            Controls.Add(_CB_Protocol);
-            Controls.Add(_NUD_Port);
-            Controls.Add(_TB_IP);
-            Controls.Add(_B_New);
-            Controls.Add(_updater);
-            Controls.Add(_B_RebootStop);
-            Controls.Add(_B_Stop);
-            Controls.Add(_B_Start);
-            Name = "BotsForm";
-            ((System.ComponentModel.ISupportInitialize)_NUD_Port).EndInit();
-            ((System.ComponentModel.ISupportInitialize)_pictureBox1).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
-
-        }
-
-        private PokeBotState? CreateNewBotConfig()
-        {
-            var ip = _TB_IP.Text.Trim();
-            var port = (int)_NUD_Port.Value;
-            // Validate IP address
-            if (string.IsNullOrWhiteSpace(ip))
-            {
-                WinFormsUtil.Error("IP address cannot be empty.");
-                return null;
-            }
-            if (!System.Net.IPAddress.TryParse(ip, out _))
-            {
-                WinFormsUtil.Error($"Invalid IP address: {ip}");
-                return null;
-            }
-            var cfg = BotConfigUtil.GetConfig<SwitchConnectionConfig>(ip, port);
-            cfg.Protocol = (SwitchProtocol)_CB_Protocol.SelectedValue;
-            var state = new PokeBotState { Connection = cfg };
-            // Use SelectedValue for routine (should be int)
-            var routineValue = _CB_Routine.SelectedValue;
-            if (routineValue == null)
-            {
-                WinFormsUtil.Error("Please select a valid routine.");
-                return null;
-            }
-            var routine = (PokeRoutineType)routineValue;
-            state.Initialize(routine);
-            return state;
-        }
-
-        
     }
 }

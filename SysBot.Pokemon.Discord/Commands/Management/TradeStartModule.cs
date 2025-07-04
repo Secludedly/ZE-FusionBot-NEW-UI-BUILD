@@ -21,20 +21,11 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
         : ChannelAction<PokeRoutineExecutorBase, PokeTradeDetail<T>>(ChannelId, messager, channel);
 
     private static DiscordSocketClient? _discordClient;
-
     private static readonly Dictionary<ulong, TradeStartAction> Channels = [];
 
-    private static void Remove(TradeStartAction entry)
-    {
-        Channels.Remove(entry.ChannelID);
-        SysCord<T>.Runner.Hub.Queues.Forwarders.Remove(entry.Action);
-    }
-
-#pragma warning disable RCS1158 // Static member in generic type should use a type parameter.
     public static void RestoreTradeStarting(DiscordSocketClient discord)
     {
-        _discordClient = discord; // Store the DiscordSocketClient instance
-
+        _discordClient = discord;
         var cfg = SysCordSettings.Settings;
         foreach (var ch in cfg.TradeStartingChannels)
         {
@@ -45,32 +36,6 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
         LogUtil.LogInfo("Added Trade Start Notification to Discord channel(s) on Bot startup.", "Discord");
     }
 
-    public static bool IsStartChannel(ulong cid)
-#pragma warning restore RCS1158 // Static member in generic type should use a type parameter.
-    {
-        return Channels.TryGetValue(cid, out _);
-    }
-
-    [Command("startHere")]
-    [Summary("Makes the bot log trade starts to the channel.")]
-    [RequireSudo]
-    public async Task AddLogAsync()
-    {
-        var c = Context.Channel;
-        var cid = c.Id;
-        if (Channels.TryGetValue(cid, out _))
-        {
-            await ReplyAsync("Already logging here.").ConfigureAwait(false);
-            return;
-        }
-
-        AddLogChannel(c, cid);
-
-        // Add to discord global loggers (saves on program close)
-        SysCordSettings.Settings.TradeStartingChannels.AddIfNew([GetReference(Context.Channel)]);
-        await ReplyAsync("Added Start Notification output to this channel!").ConfigureAwait(false);
-    }
-
     private static void AddLogChannel(ISocketMessageChannel c, ulong cid)
     {
         if (Channels.ContainsKey(cid))
@@ -78,7 +43,8 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
 
         async void Logger(PokeRoutineExecutorBase bot, PokeTradeDetail<T> detail)
         {
-            if (detail.Type == PokeTradeType.Random) return;
+            if (detail.Type == PokeTradeType.Random || _discordClient == null)
+                return;
 
             var user = _discordClient.GetUser(detail.Trainer.ID);
             if (user == null)
@@ -87,10 +53,7 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
                 return;
             }
 
-            string speciesName = detail.TradeData != null
-                ? GameInfo.Strings.Species[detail.TradeData.Species]
-                : "";
-
+            string speciesName = detail.TradeData != null ? GameInfo.Strings.Species[detail.TradeData.Species] : "";
             string ballImgUrl = "https://raw.githubusercontent.com/Secludedly/ZE-FusionBot-Sprite-Images/main/specialrequest.gif";
 
             if (detail.TradeData != null &&
@@ -99,20 +62,13 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
                 try
                 {
                     var rawBallName = GameInfo.GetStrings(1).balllist[detail.TradeData.Ball];
-                    string cleanedBall = rawBallName
-                        .Replace(" ", "")
-                        .Replace("(LA)", "")
-                        .Replace("é", "e")
-                        .ToLowerInvariant();
-
+                    string cleanedBall = rawBallName.Replace(" ", "").Replace("(LA)", "").Replace("é", "e").ToLowerInvariant();
                     if (rawBallName.Contains("(LA)", StringComparison.OrdinalIgnoreCase))
                         cleanedBall = "la" + cleanedBall;
-
-                    if (cleanedBall == "pokeball" || cleanedBall == "pokéball")
+                    if (cleanedBall is "pokeball" or "pokéball")
                         cleanedBall = "pokeball";
 
                     ballImgUrl = $"https://raw.secludedly.workers.dev/AltBallImg/28x28/{cleanedBall}.png";
-                    Console.WriteLine($"BALL IMG URL: {ballImgUrl}");
                 }
                 catch (Exception ex)
                 {
@@ -137,17 +93,15 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
                     PokeTradeType.Dump => "https://raw.githubusercontent.com/Secludedly/ZE-FusionBot-Sprite-Images/main/Dumping.png",
                     PokeTradeType.FixOT => "https://raw.githubusercontent.com/Secludedly/ZE-FusionBot-Sprite-Images/main/FixOTing.png",
                     PokeTradeType.Seed => "https://raw.githubusercontent.com/Secludedly/ZE-FusionBot-Sprite-Images/main/Seeding.png",
-                    _ => detail.TradeData != null
-                        ? AbstractTrade<T>.PokeImg(detail.TradeData, false, true)
-                        : ""
+                    _ => detail.TradeData != null ? AbstractTrade<T>.PokeImg(detail.TradeData, false, true) : ""
                 };
 
             var (r, g, b) = await GetDominantColorAsync(embedImageUrl);
 
             string footerText = detail.Type switch
             {
-                PokeTradeType.Clone or PokeTradeType.Dump or PokeTradeType.Seed or PokeTradeType.FixOT
-                    => "Now Initializing...",
+                PokeTradeType.Clone or PokeTradeType.Dump or PokeTradeType.Seed or PokeTradeType.FixOT =>
+                    "Now Initializing...",
                 _ => $"Now Initializing...\nYour {(detail.IsMysteryEgg ? "✨ Mystery Egg" : speciesName)} is now on its way!"
             };
 
@@ -163,43 +117,55 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
         }
 
         SysCord<T>.Runner.Hub.Queues.Forwarders.Add(Logger);
-        Channels.Add(cid, new TradeStartAction(cid, Logger, c.Name));
+        Channels[cid] = new TradeStartAction(cid, Logger, c.Name);
     }
 
+    [Command("startHere")]
+    [RequireSudo]
+    public async Task AddLogAsync()
+    {
+        var c = Context.Channel;
+        var cid = c.Id;
+        if (Channels.ContainsKey(cid))
+        {
+            await ReplyAsync("Already logging here.").ConfigureAwait(false);
+            return;
+        }
 
+        AddLogChannel(c, cid);
+        SysCordSettings.Settings.TradeStartingChannels.AddIfNew([GetReference(Context.Channel)]);
+        await ReplyAsync("Added Start Notification output to this channel!").ConfigureAwait(false);
+    }
 
     [Command("startInfo")]
-    [Summary("Dumps the Start Notification settings.")]
     [RequireSudo]
     public async Task DumpLogInfoAsync()
     {
         foreach (var c in Channels)
-            await ReplyAsync($"{c.Key} - {c.Value}").ConfigureAwait(false);
+            await ReplyAsync($"{c.Key} - {c.Value.ChannelName}").ConfigureAwait(false);
     }
 
     [Command("startClear")]
-    [Summary("Clears the Start Notification settings in that specific channel.")]
     [RequireSudo]
     public async Task ClearLogsAsync()
     {
-        var cfg = SysCordSettings.Settings;
         if (Channels.TryGetValue(Context.Channel.Id, out var entry))
-            Remove(entry);
-        cfg.TradeStartingChannels.RemoveAll(z => z.ID == Context.Channel.Id);
+        {
+            SysCord<T>.Runner.Hub.Queues.Forwarders.Remove(entry.Action);
+            Channels.Remove(Context.Channel.Id);
+        }
+
+        SysCordSettings.Settings.TradeStartingChannels.RemoveAll(z => z.ID == Context.Channel.Id);
         await ReplyAsync($"Start Notifications cleared from channel: {Context.Channel.Name}").ConfigureAwait(false);
     }
 
     [Command("startClearAll")]
-    [Summary("Clears all the Start Notification settings.")]
     [RequireSudo]
     public async Task ClearLogsAllAsync()
     {
         foreach (var l in Channels)
-        {
-            var entry = l.Value;
-            await ReplyAsync($"Logging cleared from {entry.ChannelName} ({entry.ChannelID}!").ConfigureAwait(false);
-            SysCord<T>.Runner.Hub.Queues.Forwarders.Remove(entry.Action);
-        }
+            SysCord<T>.Runner.Hub.Queues.Forwarders.Remove(l.Value.Action);
+
         Channels.Clear();
         SysCordSettings.Settings.TradeStartingChannels.Clear();
         await ReplyAsync("Start Notifications cleared from all channels!").ConfigureAwait(false);
@@ -217,14 +183,13 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
         try
         {
             Bitmap image = await LoadImageAsync(imagePath);
-
             var colorCount = new Dictionary<Color, int>();
+
             for (int y = 0; y < image.Height; y++)
             {
                 for (int x = 0; x < image.Width; x++)
                 {
                     var pixelColor = image.GetPixel(x, y);
-
                     if (pixelColor.A < 128 || pixelColor.GetBrightness() > 0.9) continue;
 
                     var brightnessFactor = (int)(pixelColor.GetBrightness() * 100);
@@ -238,29 +203,21 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
                     );
 
                     if (colorCount.ContainsKey(quantizedColor))
-                    {
                         colorCount[quantizedColor] += combinedFactor;
-                    }
                     else
-                    {
                         colorCount[quantizedColor] = combinedFactor;
-                    }
                 }
             }
 
             image.Dispose();
-
-            if (colorCount.Count == 0)
-                return (255, 255, 255);
+            if (colorCount.Count == 0) return (255, 255, 255);
 
             var dominantColor = colorCount.Aggregate((a, b) => a.Value > b.Value ? a : b).Key;
             return (dominantColor.R, dominantColor.G, dominantColor.B);
         }
-        catch (Exception ex)
+        catch
         {
-            // Log or handle exceptions as needed
-            Console.WriteLine($"Error processing image from {imagePath}. Error: {ex.Message}");
-            return (255, 255, 255);  // Default to white if an exception occurs
+            return (255, 255, 255);
         }
     }
 

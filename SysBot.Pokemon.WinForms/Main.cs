@@ -137,6 +137,7 @@ namespace SysBot.Pokemon.WinForms
             }
             catch { }
             _botsForm = new BotsForm();
+            _logsForm = new LogsForm();
             _botsForm.GameModeChanged += (_, newMode) =>
             {
                 Config.Mode = newMode;
@@ -147,8 +148,6 @@ namespace SysBot.Pokemon.WinForms
                 UpdateRunnerAndUI();
             };
 
-            _logsForm = new LogsForm();
-            LogUtil.Forwarders.Add(new UIRichTextBoxForwarder(_logsForm.LogsBox));
             _logsForm.LogsBox.MaxLength = 32767;
 
             if (File.Exists(Program.ConfigPath))
@@ -181,6 +180,7 @@ namespace SysBot.Pokemon.WinForms
                         AddBot(bot);
                     }
                 }
+                LogUtil.Forwarders.Add(new UIRichTextBoxForwarder(_logsForm.LogsBox));
             }
             else
             {
@@ -528,7 +528,7 @@ namespace SysBot.Pokemon.WinForms
                 case ProgramMode.BDSP:
                     leftSideImage.Image = Resources.bdsp_mode_image; // Set the image for BDSP mode
                     break;
-                case ProgramMode.LA: 
+                case ProgramMode.LA:
                     leftSideImage.Image = Resources.pla_mode_image;  // Set the image for PLA mode
                     break;
                 case ProgramMode.LGPE:
@@ -876,6 +876,11 @@ namespace SysBot.Pokemon.WinForms
             {
                 WinFormsUtil.Error($"Failed to save configuration:\n{ex.Message}");
             }
+        }
+
+        private void shadowPanelTop_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

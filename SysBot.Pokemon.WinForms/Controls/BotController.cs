@@ -83,7 +83,7 @@ public partial class BotController : UserControl
     public void ReloadStatus()
     {
         var bot = GetBot().Bot;
-        L_Left.Text = $"{bot.Connection.Name}{Environment.NewLine}{State.InitialRoutine}";
+        RTB_Left.Text = $"{bot.Connection.Name}{Environment.NewLine}{State.InitialRoutine}";
     }
 
     private DateTime LastUpdateStatus = DateTime.Now;
@@ -92,8 +92,42 @@ public partial class BotController : UserControl
     {
         ReloadStatus();
         var bot = b.Bot;
-        L_Description.Text = $"[{bot.LastTime:hh\\:mm\\:ss}] {bot.Connection.Label}: {bot.LastLogged}";
-        L_Left.Text = $"{bot.Connection.Name}{Environment.NewLine}{State.InitialRoutine}";
+        // Update description with styled text
+        RTB_Description.Clear();
+        RTB_Description.SelectionFont = new Font("Gadugi", 9F, FontStyle.Bold);
+        RTB_Description.SelectionColor = Color.FromArgb(165, 137, 182);
+        RTB_Description.AppendText("BOT STATUS: ");
+
+        RTB_Description.SelectionFont = new Font("Gadugi", 9F, FontStyle.Regular);
+        RTB_Description.SelectionColor = Color.White;
+        RTB_Description.AppendText($"    {bot.LastLogged}\n");
+
+        RTB_Description.SelectionFont = new Font("Gadugi", 9F, FontStyle.Bold);
+        RTB_Description.SelectionColor = Color.FromArgb(165, 137, 182);
+        RTB_Description.AppendText("LAST LOG: ");
+
+        RTB_Description.SelectionFont = new Font("Gadugi", 9F, FontStyle.Regular);
+        RTB_Description.SelectionColor = Color.White;
+        RTB_Description.AppendText($"         {bot.LastTime:hh\\:mm\\:ss}");
+
+        // Update left section
+        RTB_Left.Clear();
+        RTB_Left.SelectionFont = new Font("Gadugi", 9F, FontStyle.Bold);
+        RTB_Left.SelectionColor = Color.FromArgb(165, 137, 182);
+        RTB_Left.AppendText("BOT ADDRESS: ");
+
+        RTB_Left.SelectionFont = new Font("Gadugi", 9F, FontStyle.Regular);
+        RTB_Left.SelectionColor = Color.White;
+        RTB_Left.AppendText($" {bot.Connection.Name}\n");
+
+        RTB_Left.SelectionFont = new Font("Gadugi", 9F, FontStyle.Bold);
+        RTB_Left.SelectionColor = Color.FromArgb(165, 137, 182);
+        RTB_Left.AppendText("TRADE TYPE: ");
+
+        RTB_Left.SelectionFont = new Font("Gadugi", 9F, FontStyle.Regular);
+        RTB_Left.SelectionColor = Color.White;
+        RTB_Left.AppendText($"     {State.InitialRoutine}");
+
 
         var lastTime = bot.LastTime;
         if (!b.IsRunning)
